@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 
 const addParametersToURL = (url, params) => {
   if (typeof params === 'object') {
@@ -5,6 +6,8 @@ const addParametersToURL = (url, params) => {
     url += url.indexOf('?') === -1 ? '?' : '&';
     url += p.join('&');
   }
+
+  console.log('final url', url);
 
   return url;
 }

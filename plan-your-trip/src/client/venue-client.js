@@ -1,11 +1,15 @@
+import BaseClient from './base-client';
+import { FoursquareCredentials } from '../configuration';
+
 const foursquareCredentials = {
-  client_id: '',
-  client_secret: ''
+  client_id: FoursquareCredentials.client_id,
+  client_secret: FoursquareCredentials.client_secret,
+  v: FoursquareCredentials.api_version
 };
 
 // https://developer.foursquare.com/docs/api/endpoints
 
-export default class VenuesClient extends BaseClient {
+export class VenuesClient extends BaseClient {
 
   constructor() {
     super('https://api.foursquare.com/v2/venues');
@@ -20,8 +24,10 @@ export default class VenuesClient extends BaseClient {
   }
 
   getCategories() {
-    return this.get('/categories', foursquareCredentials, this._defaultHeaders);
+    return this.get('/categories', FoursquareCredentials, null);
   }
 
 
 }
+
+export default new VenuesClient();

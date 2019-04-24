@@ -3,13 +3,15 @@ import classNames from 'classnames';
 
 import './SearchBar.scss';
 
+import SearchCategories from './SearchCategories';
+
 export default class SearchBar extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      opened: true,
+      opened: false,
       searchText: ''
     }
   }
@@ -49,18 +51,7 @@ export default class SearchBar extends Component {
           <button type="submit">Buscar</button>
         </form>
 
-        <div className="searchbar-content">
-          <h2>Categorías</h2>
-          <div className="">
-
-          </div>
-          <div className="searchbar-categories">
-            <div class="searchbar-category">
-              <img class="round" src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G" alt="Category thumbnail" />
-              <h3>Category</h3>
-            </div>
-          </div>
-        </div>
+        <SearchCategories />
 
         { /* close button */ }
         <span onClick={ this.toggleSearch } className="searchbar-close"></span>

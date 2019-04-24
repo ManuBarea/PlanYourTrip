@@ -4,13 +4,14 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
+    "node-fetch": "^2.3.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-map-gl": "^4.1.2",
     "react-scripts": "2.1.8"
   },
   "scripts": {
-    "start": "REACT_APP_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoibWFub3V0YmFyIiwiYSI6ImNqdHp6bzJmdTB3YXMzeW1obGZqMzU4aGIifQ.W6_dJOXv6MAr8-ivWIEfVA react-scripts start",
+    "start": "REACT_APP_MAPBOX_ACCESS_TOKEN=<your_api_token> react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

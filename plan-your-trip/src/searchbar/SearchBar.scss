@@ -9,6 +9,7 @@ $searchbar-category-hover-title-color: rgba(236,90,98,1);
 $searchbar-content-title-color: #c2c2c2;
 
 #searchbar {
+  box-shadow: 2px 2px 2px #a1a1a1;
   width: 400px;
   min-height: 40px;
   background: $searchbar-background-color;
