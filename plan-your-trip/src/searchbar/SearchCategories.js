@@ -74,8 +74,6 @@ export default class SearchCategories extends Component {
       return tot;
     }, Array.from({length: this.numOfCategoryColumns}, () => []));
 
-    console.log('categories', categories);
-
     return (
       <div className="searchbar-content">
         <h2>Categorías</h2>

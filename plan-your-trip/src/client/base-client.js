@@ -7,8 +7,6 @@ const addParametersToURL = (url, params) => {
     url += p.join('&');
   }
 
-  console.log('final url', url);
-
   return url;
 }
 

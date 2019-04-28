@@ -7,36 +7,40 @@ export default class Map extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      viewport: {
-        latitude: 39.772175,
-        longitude: -4.074039,
-        zoom: 6
-      }
-    };
   }
 
   render() {
-    const { width, height } = this.props;
-
-    const viewport = {...this.state.viewport };
+    const { width, height, viewport, points, onViewportChange } = this.props;
 
     return (
       <ReactMapGL { ...viewport }
         width="100%"
         height="100%"
         mapStyle="mapbox://styles/mapbox/streets-v10"
-        onViewportChange={ (viewport) => this.setState({ viewport }) }
+        onViewportChange={ (viewport) => {
+          if (typeof onViewportChange === 'function') {
+            onViewportChange(viewport);
+          }
+        }}
       >
-        <Marker
+        { points.length > 0 && points.map((point, i) => (
+          <Marker key={ i }
+            latitude={ point.latitude }
+            longitude={ point.longitude }
+            offsetTop={ -20 }
+            offsetLeft={ -10 }
+          >
+            <Pin size={ 20 } />
+          </Marker>
+        ))  }
+        { /*<Marker
           latitude={ 39.772175 }
           longitude={ -4.074039 }
           offsetTop={ -20 }
           offsetLeft={ -10 }
           >
           <Pin size={ 20 } />
-        </Marker>
+        </Marker> */ }
       </ReactMapGL>
     );
   }

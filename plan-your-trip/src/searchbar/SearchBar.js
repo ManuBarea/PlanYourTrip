@@ -6,6 +6,7 @@ import './SearchBar.scss';
 import SearchCategories from './SearchCategories';
 
 import VenuesClient from '../client/venue-client';
+//import Dispatcher from '../mixins/dispatcher';
 
 export default class SearchBar extends Component {
 
@@ -21,7 +22,7 @@ export default class SearchBar extends Component {
   }
 
   toggleSearch = (evt) => {
-    if (evt.type.toLowerCase() === 'focus' && this.state.opened) {
+    if (this.props.locked || (evt.type.toLowerCase() === 'focus' && this.state.opened)) {
       return false;
     }
 
@@ -33,6 +34,10 @@ export default class SearchBar extends Component {
   }
 
   handleKeyDown = (evt) => {
+    if (this.props.locked) {
+      return false;
+    }
+
     const keyCode = evt.keyCode || evt.which;
     // console.log('keydown event handled', keyCode, evt.key, evt.type, evt);
     if (keyCode === 27 && this.state.opened) {
@@ -41,6 +46,10 @@ export default class SearchBar extends Component {
   }
 
   handleCategorySelect = (category) => {
+    if (this.props.locked) {
+      return false;
+    }
+
     let { categories } = this.state;
     let index = categories.indexOf(category);
 
@@ -52,8 +61,10 @@ export default class SearchBar extends Component {
     }
   }
 
-  handleSearchClick = () => {
-    if (!this.state.opened) {
+  handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    if (this.props.locked || !this.state.opened) {
       return false;
     }
     const { onSearch } = this.props;
@@ -62,8 +73,16 @@ export default class SearchBar extends Component {
     this.setState({ opened: false });
 
     if (typeof onSearch === 'function') {
-      onSearch({ query: searchText, categories });
+      onSearch({
+        query: searchText,
+        categories: categories
+      });
     }
+
+    /*Dispather.dispatch('search:venues', {
+      query: searchText,
+      categories: categories
+    });*/
   }
 
   render() {
@@ -73,12 +92,12 @@ export default class SearchBar extends Component {
       <div id="searchbar" className={ classNames({
         'opened': opened
       }) }>
-        <form className="searchbar-form">
+        <form className="searchbar-form" onSubmit={ this.handleSubmit }>
           <input type="search" value={ searchText } placeholder="buscar..."
             onFocus={ this.toggleSearch }
             onKeyDown={ this.handleKeyDown }
-            onChange={ (evt) => this.setState({ searchText: evt.target.value }) } />
-          <button type="submit" onClick={ this.handleSearchClick }>Buscar</button>
+            onChange={ (evt) => !this.props.locked && this.setState({ searchText: evt.target.value }) } />
+          <button type="submit">Buscar</button>
         </form>
 
         <SearchCategories selectedCategories={ categories } onCategorySelect={ this.handleCategorySelect } />
