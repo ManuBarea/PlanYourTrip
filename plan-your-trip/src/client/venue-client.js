@@ -1,12 +1,6 @@
 import BaseClient from './base-client';
 import { FoursquareCredentials } from '../configuration';
 
-const foursquareCredentials = {
-  client_id: FoursquareCredentials.client_id,
-  client_secret: FoursquareCredentials.client_secret,
-  v: FoursquareCredentials.api_version
-};
-
 // https://developer.foursquare.com/docs/api/endpoints
 
 export class VenuesClient extends BaseClient {
@@ -19,7 +13,7 @@ export class VenuesClient extends BaseClient {
     };
   }
 
-  search(latlng) {
+  search(latlng, query, categories) {
 
   }
 

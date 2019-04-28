@@ -7,6 +7,8 @@ $searchbar-category-hover-background-color: rgba(118,117,128,0.1);
 $searchbar-category-title-color: rgba(145,145,145,0.7);
 $searchbar-category-hover-title-color: rgba(236,90,98,1);
 $searchbar-content-title-color: #c2c2c2;
+$searchbar-category-selected-background-color: rgba(236,90,98,0.7);
+$searchbar-category-selected-title-color: rgba(0,0,0,0.3);
 
 #searchbar {
   box-shadow: 2px 2px 2px #a1a1a1;
@@ -79,17 +81,17 @@ $searchbar-content-title-color: #c2c2c2;
         -webkit-transform: translate3d(0,0,0);
         transform: translate3d(0,0,0);
 
-        &:first-child {
+        &:nth-child(2) {
           -webkit-transition-delay: 0.4s;
           transition-delay: 0.4s;
         }
 
-        &:nth-child(2) {
+        &:nth-child(3) {
           -webkit-transition-delay: 0.45s;
           transition-delay: 0.45s;
         }
 
-        &:nth-child(3) {
+        &:nth-child(4) {
           -webkit-transition-delay: 0.5s;
           transition-delay: 0.5s;
         }
@@ -221,7 +223,7 @@ $searchbar-content-title-color: #c2c2c2;
       padding: 0.5em 0;
     }
 
-    .searchbar-categories {
+    div.searchbar-categories {
       width: 30%;
       padding: 0 0 6em;
       float: left;
@@ -231,8 +233,8 @@ $searchbar-content-title-color: #c2c2c2;
       -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
       transition: transform 0.5s, opacity 0.5s;
 
-      &nth-child(2) {
-        margin: 0 5%;
+      &:nth-child(3) {
+        margin: 0 0.5rem;
       }
 
       .searchbar-category {
@@ -269,6 +271,14 @@ $searchbar-content-title-color: #c2c2c2;
           width: calc(100% - 70px);
           color: $searchbar-category-title-color;
         }
+
+        &.selected {
+          background: $searchbar-category-selected-background-color;
+
+          > h3 {
+            color: $searchbar-category-selected-title-color;
+          }
+        }
       }
     }
   }
@@ -299,12 +309,13 @@ input[type="search"] {
   }
 
   .searchbar-categories {
+    width: 100%;
     float: none;
     width: auto;
-    padding: 0 0 2em;
+    padding: 0;
   }
 
-  .searchbar-categories:nth-child(2) {
+  .searchbar-categories:nth-child(3) {
     margin: 0;
   }
 

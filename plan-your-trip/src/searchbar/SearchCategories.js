@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 import VenuesClient from '../client/venue-client';
 
@@ -28,7 +29,6 @@ export default class SearchCategories extends Component {
       loading: true
     };
 
-
     VenuesClient.getCategories()
       .then((data) => {
         if (!data.meta || data.meta.code !== 200) {
@@ -44,38 +44,53 @@ export default class SearchCategories extends Component {
       });
   }
 
-  onCategoryClicked = (evt) => {
+  categoryIconSize = 64;
 
+  numOfCategoryColumns = 3;
+
+  onCategoryClicked = (categoryId) => (evt) => {
+    const { onCategorySelect } = this.props;
+
+    if (typeof onCategorySelect === 'function') {
+      onCategorySelect(categoryId);
+    }
   }
 
   render() {
     const { rawData, loading } = this.state;
-    let { firstLevel = null, secondLevel = null, thirdLevel = null } = this.props;
+    let { selectedCategories, firstLevel = null, secondLevel = null, thirdLevel = null } = this.props;
 
     if (firstLevel === null && rawData.length > 0) {
       firstLevel = rawData[0].id;
     }
 
+    // categories grouping in 3 columns
+    const columLimit = rawData.length / this.numOfCategoryColumns;
+
+    const initCategories = [];
+
+    const categories = rawData.reduce((tot, curr, i) => {
+      tot[i % this.numOfCategoryColumns].push(curr);
+      return tot;
+    }, Array.from({length: this.numOfCategoryColumns}, () => []));
+
+    console.log('categories', categories);
+
     return (
       <div className="searchbar-content">
         <h2>Categorías</h2>
         { loading ? (<Loader />) : (
-          <div className="searchbar-categories">
-
-            <div className="searchbar-category">
-              <img className="round" src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G" alt="Category thumbnail" />
-              <h3>Category</h3>
+          categories.map((categoryList, i) => (
+            <div key={i}  className="searchbar-categories">
+              { categoryList.map((category, j) => (<div key={ j } className={ classNames("searchbar-category", {
+                'selected': selectedCategories.indexOf(category.id) !== -1
+              }) } onClick={ this.onCategoryClicked(category.id) }>
+                  <img className={ "round" } src={ category.icon.prefix + this.categoryIconSize + category.icon.suffix } alt={ category.name } />
+                  <h3>{ category.name }</h3>
+                </div>)) }
             </div>
-            <div className="searchbar-category">
-              <img className="round" src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G" alt="Category thumbnail" />
-              <h3>Category</h3>
-            </div>
-            <div className="searchbar-category">
-              <img className="round" src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G" alt="Category thumbnail" />
-              <h3>Category</h3>
-            </div>
-          </div>
-        ) }
+          )))
+        }
       </div>
     );
   }
