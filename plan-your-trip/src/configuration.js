@@ -1,5 +1,5 @@
 export const FoursquareCredentials = {
-  client_id: '<client-id>',
-  client_secret: '<client-secret>',
-  api_version: '20190427'
+  client_id: 'EYKOIPGWMB5HCVDIMN2EKAGMBXATU5ONA1DIJS5LKDSRN2XI',
+  client_secret: '3UUYN5JQB4GVCSTFO225PCE04OHCM2F23QKJO3Y1H53LNWOR',
+  v: '20190427'
 };

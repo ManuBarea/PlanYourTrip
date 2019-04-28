@@ -19,34 +19,51 @@ class App extends Component {
         zoom: 6
       },
       points: [],
+      venues:[],
       searching: false
     }
   }
 
-  handleSearch = (data) => {
+  handleSearch = (searchData) => {
     this.setState({ searching: true });
 
-    // TODO remove this when VenuesClient.search had been implemented
-    setTimeout(() => this.setState({ searching: false }), 2000);
-
-    /* TODO
-    VenuesClient.search(...args)
+   
+    let query = searchData.query;
+    let categories = searchData.categories;
+    
+    VenuesClient.search( query,categories)
       .then((data) => {
         if (!data.meta || data.meta.code !== 200) {
           console.log('invalid service response', data);
           this.setState({ searching: false });
         } else {
           console.log('received venues', data);
-          this.setState({ points: data.response.categories, searching: false });
+          this.setState({ points: data.response.venues.map(entry=>({
+            latitude: entry.location.lat,
+            longitude: entry.location.lng})),
+          searching: false });
+          this.setState({ venues: data.response.venues, searching: false });
+          
+          let newViewport = {...this.state.viewport};
+          newViewport.latitude = data.response.geocode.feature.geometry.center.lat;
+          newViewport.longitude = data.response.geocode.feature.geometry.center.lng;
+          newViewport.zoom= 15;
+         
+          console.log('latitude',newViewport);
+          this.setState({ viewport: newViewport});
+
+          
         }
       }, (error) => {
         console.log('error searching points', error);
         this.setState({ searching: false });
-      }); */
+      }); 
   }
 
   render() {
     const { viewport, points, searching } = this.state;
+
+    console.log(viewport);
 
     return (
       <div className="App">
