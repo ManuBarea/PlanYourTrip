@@ -12,9 +12,14 @@ export class VenuesClient extends BaseClient {
       'Content-Type': 'application/json;charset=utf-8'
     };
   }
+r
+  search( query, categories) {
+    let queryParams = JSON.parse(JSON.stringify(FoursquareCredentials));
+      queryParams.near = query;
+      
+      queryParams.categoryId = categories;
 
-  search(latlng, query, categories) {
-
+    return this.get('/search',queryParams,null);
   }
 
   getCategories() {
