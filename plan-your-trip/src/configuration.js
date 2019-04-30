@@ -1,5 +1,7 @@
 export const FoursquareCredentials = {
-  client_id: '<client-id>',
-  client_secret: '<client-secret>',
-  api_version: '20190427'
+  client_id: '',
+  client_secret: '',
+  v: '20190427'
 };
+
+export const MapboxToken = "";

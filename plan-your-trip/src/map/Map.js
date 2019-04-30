@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 
+import { MapboxToken } from '../configuration';
+
 import Pin from '../marker/Pin';
 
 export default class Map extends Component {
@@ -14,6 +16,7 @@ export default class Map extends Component {
 
     return (
       <ReactMapGL { ...viewport }
+        mapboxApiAccessToken={ MapboxToken }
         width="100%"
         height="100%"
         mapStyle="mapbox://styles/mapbox/streets-v10"
