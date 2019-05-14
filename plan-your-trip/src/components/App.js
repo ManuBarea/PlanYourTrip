@@ -26,7 +26,6 @@ class App extends Component {
   handleSearch = (searchData) => {
     this.setState({ searching: true });
 
-
     let query = searchData.query;
     let categories = searchData.categories;
 
@@ -52,8 +51,6 @@ class App extends Component {
 
   render() {
     const { viewport, venues, searching } = this.state;
-
-    console.log(viewport);
 
     return (
       <div className="App">

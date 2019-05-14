@@ -5,20 +5,6 @@ import VenuesController from '../../controllers/venues.controller';
 
 import Loader from '../loader/Loader';
 
-
-const getCategories = (categories, parentIds = [], level = 0) => {
-  let category = null;
-  if (parentIds.length > 0) {
-    category = categories.find(category => category.id === parentIds[level]);
-  }
-
-  if (category == null) {
-    return categories;
-  } else {
-    return getCategories(category.categories, parentIds, level + 1);
-  }
-}
-
 export default class SearchCategories extends Component {
 
   constructor(props) {
@@ -31,7 +17,7 @@ export default class SearchCategories extends Component {
 
     VenuesController.getCategories()
       .then((data) => {
-        this.setState({ rawData: data.categories || [], loading: false });
+        this.setState({ rawData: data || [], loading: false });
       }, (error) => {
         console.log('error loading venues categories', error);
         this.setState({ loading: false });
@@ -61,8 +47,6 @@ export default class SearchCategories extends Component {
     // categories grouping in 3 columns
     const columLimit = rawData.length / this.numOfCategoryColumns;
 
-    const initCategories = [];
-
     const categories = rawData.reduce((tot, curr, i) => {
       tot[i % this.numOfCategoryColumns].push(curr);
       return tot;
@@ -77,7 +61,7 @@ export default class SearchCategories extends Component {
               { categoryList.map((category, j) => (<div key={ j } className={ classNames("searchbar-category", {
                 'selected': selectedCategories.indexOf(category.id) !== -1
               }) } onClick={ this.onCategoryClicked(category.id) }>
-                  <img className={ "round" } src={ category.icon.prefix + this.categoryIconSize + category.icon.suffix } alt={ category.name } />
+                  <img className={ "round" } src={ category.icon.buildUrl(this.categoryIconSize) } alt={ category.name } />
                   <h3>{ category.name }</h3>
                 </div>)) }
             </div>
