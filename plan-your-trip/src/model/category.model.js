@@ -1,11 +1,11 @@
-
+import CategoryIcon from './category-icon.model';
 
 export default class Category {
 
   constructor(data = {}) {
     this._id = data.id || null;
     this._name = data.name || null;
-    this._icon = data.icon || null;
+    this._icon = data.icon != null ? new CategoryIcon(data.icon) : null;
     this._subcategories = data.categories.map(cat => new Category(cat)) || [];
   }
 
@@ -14,7 +14,7 @@ export default class Category {
   }
 
   get id() {
-    return this.id;
+    return this._id;
   }
 
   set name(name) {
