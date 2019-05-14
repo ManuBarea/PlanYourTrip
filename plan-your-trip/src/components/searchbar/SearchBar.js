@@ -5,7 +5,6 @@ import './SearchBar.scss';
 
 import SearchCategories from './SearchCategories';
 
-import VenuesClient from '../client/venue-client';
 //import Dispatcher from '../mixins/dispatcher';
 
 export default class SearchBar extends Component {
