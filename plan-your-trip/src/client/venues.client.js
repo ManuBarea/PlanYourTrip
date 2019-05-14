@@ -12,11 +12,11 @@ export class VenuesClient extends BaseClient {
       'Content-Type': 'application/json;charset=utf-8'
     };
   }
-r
-  search( query, categories) {
+
+  search(query, categories) {
     let queryParams = JSON.parse(JSON.stringify(FoursquareCredentials));
       queryParams.near = query;
-      
+
       queryParams.categoryId = categories;
 
     return this.get('/search',queryParams,null);

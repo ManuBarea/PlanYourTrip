@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 
-import { MapboxToken } from '../configuration';
+import { MapboxToken } from '../../configuration';
 
 import Pin from '../marker/Pin';
 

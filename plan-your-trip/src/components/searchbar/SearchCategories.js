@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import VenuesClient from '../client/venue-client';
+import VenuesController from '../../controllers/venues.controller';
 
 import Loader from '../loader/Loader';
 
@@ -29,15 +29,9 @@ export default class SearchCategories extends Component {
       loading: true
     };
 
-    VenuesClient.getCategories()
+    VenuesController.getCategories()
       .then((data) => {
-        if (!data.meta || data.meta.code !== 200) {
-          console.log('invalid service response', data);
-          this.setState({ loading: false });
-        } else {
-          console.log('received venues categories', data);
-          this.setState({ rawData: data.response.categories, loading: false });
-        }
+        this.setState({ rawData: data.categories || [], loading: false });
       }, (error) => {
         console.log('error loading venues categories', error);
         this.setState({ loading: false });
@@ -60,7 +54,7 @@ export default class SearchCategories extends Component {
     const { rawData, loading } = this.state;
     let { selectedCategories, firstLevel = null, secondLevel = null, thirdLevel = null } = this.props;
 
-    if (firstLevel === null && rawData.length > 0) {
+    if (firstLevel == null && rawData.length > 0) {
       firstLevel = rawData[0].id;
     }
 
