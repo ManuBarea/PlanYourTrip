@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Map from './map/Map';
 import SearchBar from './searchbar/SearchBar';
+import PlacesBar from './placesbar/PlacesBar';
 
 import VenuesController from '../controllers/venues.controller';
 
@@ -28,9 +29,11 @@ class App extends Component {
 
     let query = searchData.query;
     let categories = searchData.categories;
+    let { viewport } = this.state;
 
-    VenuesController.search( query,categories)
+    VenuesController.search(query, categories, [viewport.latitude, viewport.longitude])
       .then((data) => {
+        console.log('data', data);
         this.setState({
           venues: data.venues.map(entry=> ({
             latitude: entry.location.lat,
@@ -38,8 +41,8 @@ class App extends Component {
           })),
           searching: false,
           viewport: {
-            latitude: data.response.geocode.feature.geometry.center.lat,
-            longitude: data.response.geocode.feature.geometry.center.lng,
+            latitude: viewport.latitude,
+            longitude: viewport.longitude,
             zoom: 12
           }
         });
