@@ -5,9 +5,9 @@ import Venue from '../model/venue.model';
 
 export default class VenuesController {
 
-    static searchVenues(query, categories) {
+    static search(query, categories, center) {
       return new Promise((resolve, reject) => {
-        VenuesClient.search(query, categories)
+        VenuesClient.search(query, categories, center)
           .then((data) => {
             if (!data.meta || data.meta.code !== 200) {
               reject(new Error('invalid response status'));

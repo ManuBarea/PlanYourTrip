@@ -13,13 +13,13 @@ export class VenuesClient extends BaseClient {
     };
   }
 
-  search(query, categories) {
+  search(query, categories, center) {
     let queryParams = JSON.parse(JSON.stringify(FoursquareCredentials));
-      queryParams.near = query;
-
+      queryParams.query = query;
+      queryParams.ll = center;
       queryParams.categoryId = categories;
 
-    return this.get('/search',queryParams,null);
+    return this.get('/search', queryParams, null);
   }
 
   getCategories() {

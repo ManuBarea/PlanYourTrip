@@ -5,6 +5,8 @@ import { MapboxToken } from '../../configuration';
 
 import Pin from '../marker/Pin';
 
+import Dispatcher from '../../mixins/dispatcher';
+
 export default class Map extends Component {
 
   constructor(props) {
