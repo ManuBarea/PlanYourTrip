@@ -9,10 +9,14 @@ export class PlacesClient extends BaseClient {
 
   search(query) {
     let queryParams = {
-      'access_token': MapboxToken
+      'access_token': MapboxToken,
+      'language': 'es',
+      'types': 'country,region,postcode,district,locality,neighborhood'
     };
 
-    return this.get(`{query}.json`, queryParams, null);
+    return this.get(`${query}.json`, queryParams, null);
   }
 
 }
+
+export default new PlacesClient();
