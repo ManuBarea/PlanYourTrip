@@ -13,7 +13,7 @@ export default class VenuesController {
               reject(new Error('invalid response status'));
             } else {
               console.log('received venues categories', data);
-              resolve(data.response);
+              resolve(data.response.venues.map(venue => new Venue(venue)));
             }
           })
           .catch((error) => reject(error));

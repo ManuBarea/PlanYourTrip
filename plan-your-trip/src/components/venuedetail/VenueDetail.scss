@@ -1,0 +1,22 @@
+$background-color: #288abe;
+$color: rgb(239, 244, 244);
+
+.VenueDetail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px 10px 40px;
+  background-color: $background-color;
+  color: $color;
+
+  .header {
+    h1 {
+      margin: 0;
+    }
+
+    button {
+      background: transparent url("./times.svg") no-repeat center center;
+    }
+  }
+}
