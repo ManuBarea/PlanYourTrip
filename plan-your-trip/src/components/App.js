@@ -4,9 +4,12 @@ import WebMercatorViewport from 'viewport-mercator-project';
 import Map from './map/Map';
 import SearchBar from './searchbar/SearchBar';
 import PlacesBar from './placesbar/PlacesBar';
+import VenueDetail from './venuedetail/VenueDetail';
 
 import VenuesController from '../controllers/venues.controller';
 import PlacesController from '../controllers/places.controller';
+
+import Dispatcher from '../mixins/dispatcher';
 
 import './App.css';
 
@@ -47,12 +50,22 @@ class App extends Component {
       },
       place: null,
       venues:[],
-      searching: false
+      searching: false,
+      venueDetail: null
     }
+
+    Dispatcher.on('venue::details::open', (data) => {
+      console.log('displaying venue details', data)
+      this.setState({ venueDetail: data.id });
+    });
+
+    Dispatcher.on('venue::details::close', () => {
+        this.setState({ venueDetail: null });
+    })
   }
 
   handleSearch = (searchData) => {
-    this.setState({ searching: true });
+    this.setState({ searching: true, venueDetail: null });
 
     let query = searchData.query;
     let categories = searchData.categories;
@@ -63,14 +76,14 @@ class App extends Component {
         console.log('data', data);
 
 
-        if (data.venues.length) {
+        if (data.length) {
 
-          const bounds = getBounds(data.venues.map(entry => ({
+          const bounds = getBounds(data.map(entry => ({
             lat: entry.location.lat,
             lng: entry.location.lng
           })));
 
-          const nextViewport = new WebMercatorViewport(this.state.viewport)
+          const nextViewport = new WebMercatorViewport(viewport)
               .fitBounds(bounds, {
                 padding: 20,
                 offset: [0, -100]
@@ -78,13 +91,10 @@ class App extends Component {
 
           var { longitude, latitude, zoom, width, height} = nextViewport;
         } else {
-          var { latitude, longitude, width, height, zoom } = this.state.viewport;
+          var { latitude, longitude, width, height, zoom } = viewport;
         }
         this.setState({
-          venues: data.venues.map(entry=> ({
-            latitude: entry.location.lat,
-            longitude: entry.location.lng
-          })),
+          venues: data,
           searching: false,
           viewport: {
             latitude: latitude,
@@ -135,13 +145,14 @@ class App extends Component {
   }
 
   render() {
-    const { viewport, venues, searching } = this.state;
+    const { viewport, venues, searching, venueDetail } = this.state;
 
     return (
       <div className="App">
         <SearchBar locked={ searching } onSearch={ this.handleSearch } />
         <PlacesBar locked={ searching } onSelect={ this.handlePlaceSelect } />
-        <Map viewport={ viewport } points={ venues } onViewportChange={ (viewport) => !searching && this.setState({ viewport }) } />
+        <Map viewport={ viewport } venues={ venues } onViewportChange={ (viewport) => !searching && this.setState({ viewport }) } />
+        { venueDetail != null && (<VenueDetail venue={ venues.find(venue => venue.id === venueDetail) } />) }
       </div>
     );
   }

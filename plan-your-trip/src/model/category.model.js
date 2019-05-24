@@ -6,7 +6,7 @@ export default class Category {
     this._id = data.id || null;
     this._name = data.name || null;
     this._icon = data.icon != null ? new CategoryIcon(data.icon) : null;
-    this._subcategories = data.categories.map(cat => new Category(cat)) || [];
+    this._subcategories = data.categories != null ? data.categories.map(cat => new Category(cat)) : [];
   }
 
   set id(id) {

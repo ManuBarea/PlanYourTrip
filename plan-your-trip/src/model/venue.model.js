@@ -11,6 +11,35 @@ export default class Venue {
     this._categories = data.categories != null ? data.categories.map(category => new Category(category)) : [];
   }
 
-  
+  set name(name) {
+    this._name = name;
+  }
 
+  get name() {
+    return this._name;
+  }
+
+  set id(id) {
+    this._id = id;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  set location(location) {
+    this._location = location;
+  }
+
+  get location() {
+    return this._location;
+  }
+
+  set categories(categories) {
+    this._categories = categories;
+  }
+
+  get categories() {
+    return this._categories;
+  }
 }

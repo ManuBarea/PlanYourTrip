@@ -13,7 +13,71 @@ export default class VenueLocation {
     this._state = data
   }
 
+  set address(address) {
+    this._address = address;
+  }
+
+  get address() {
+    return this._address;
+  }
+
+  set lat(lat) {
+    this._lat = lat;
+  }
+
+  get lat() {
+    return this._lat;
+  }
+
+  set lng(lng) {
+    this._lng = lng;
+  }
+
+  get lng() {
+    return this._lng;
+  }
+
+  set distance(distance) {
+    this._distance = distance;
+  }
+
+  get distance() {
+    return this._distance;
+  }
+
+  set postalCode(postalCode) {
+    this._postalCode = postalCode;
+  }
+
+  get postalCode() {
+    return this._postalCode;
+  }
+
+  set countryCode(countryCode) {
+    this._countryCode = countryCode;
+  }
+
+  get countryCode() {
+    return this._countryCode;
+  }
+
+  set city(city) {
+    this._city = city;
+  }
+
+  get city() {
+    return this._city;
+  }
+
+  set state(state) {
+    this._state = state;
+  }
+
+  get state() {
+    return this._state;
+  }
 }
+
 
 /*{
   "address": "180 Orchard St",

@@ -14,7 +14,7 @@ export default class Map extends Component {
   }
 
   render() {
-    const { width, height, viewport, points, onViewportChange } = this.props;
+    const { width, height, viewport, venues, onViewportChange } = this.props;
 
     return (
       <ReactMapGL { ...viewport }
@@ -28,14 +28,14 @@ export default class Map extends Component {
           }
         }}
       >
-        { points.length > 0 && points.map((point, i) => (
+        { venues.length > 0 && venues.map((venue, i) => (
           <Marker key={ i }
-            latitude={ point.latitude }
-            longitude={ point.longitude }
+            latitude={ venue.location.lat }
+            longitude={ venue.location.lng }
             offsetTop={ -20 }
             offsetLeft={ -10 }
           >
-            <Pin size={ 20 } />
+            <Pin size={ 20 } onClick={ (evt) => Dispatcher.dispatch('venue::details::open', { id: venue.id }) } />
           </Marker>
         ))  }
         { /*<Marker
