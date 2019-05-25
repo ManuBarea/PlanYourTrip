@@ -16,7 +16,7 @@ export default class SearchPhotos extends Component {
       loading: true
     };
     
-
+    
     
     PhotosController.search(props.venue)
       .then((data) => {
@@ -26,7 +26,20 @@ export default class SearchPhotos extends Component {
         console.log('error loading photos', error);
         this.setState({ loading: false });
       });
+
     
+  }
+  renderPhotos= (photos)=>{
+    return  <div>
+    <img id={photos[0]} 
+    src={"https://farm"+ photos[0].farm + ".staticflickr.com/"+ 
+    photos[0].serverid+'/'+photos[0].id+'_'+photos[0].secret+'_m.jpg'  
+    }/>
+    <img id={photos[1]} 
+     src={"https://farm"+ photos[1].farm + ".staticflickr.com/"+ 
+     photos[1].serverid+'/'+photos[1].id+'_'+photos[1].secret+'_m.jpg'  
+     }/>
+    </div>
   }
 
   render() {
@@ -35,19 +48,7 @@ export default class SearchPhotos extends Component {
     return (
       <div className="searchphotos-content">
         <h2>Photos</h2>
-        { loading ? (<Loader />) : ( 
-        <span>
-        <img id={photos[0]} 
-        src={"https://farm"+ photos[0].farm + ".staticflickr.com/"+ 
-        photos[0].serverid+'/'+photos[0].id+'_'+photos[0].secret+'_m.jpg'  
-        }/>
-        <img id={photos[1]} 
-         src={"https://farm"+ photos[1].farm + ".staticflickr.com/"+ 
-         photos[1].serverid+'/'+photos[1].id+'_'+photos[1].secret+'_m.jpg'  
-         }/>
-         
-         </span>
-        )
+        { loading ? (<Loader />) : ( this.renderPhotos(photos) )
         }
       </div>
     );
