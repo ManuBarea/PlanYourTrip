@@ -25,7 +25,10 @@ export class VenuesClient extends BaseClient {
   getCategories() {
     return this.get('/categories', FoursquareCredentials, null);
   }
+  searchPhoto(venueid){
+    return this.get('/'+venueid+'/photos/', FoursquareCredentials, null);
 
+  }
 
 }
 
