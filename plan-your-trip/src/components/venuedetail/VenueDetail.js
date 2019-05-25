@@ -9,10 +9,27 @@ export default class VenueDetail extends Component {
 
   constructor(props) {
     super(props);
+    this.State={
+     
+    }
   }
 
   closePane = () => {
     Dispatcher.dispatch('venue::details::close');
+  }
+
+  renderVenuePhoto(venueid){
+    VenuesController.searchPhoto(venueid)
+    .then((photo) => {
+      this.setState({ venuephoto: photo || [], loading: false });
+    }, (error) => {
+      console.log('error loading venue photography', error);
+      this.setState({ loading: false });
+    });
+    if(this.venuephoto !=null)
+      return  <div>
+      <img src={this.venuephoto.prefix+'100x100'+this.venuephoto.sufix}/>
+      </div>
   }
 
   render() {
@@ -29,13 +46,14 @@ export default class VenueDetail extends Component {
         </div>)) }
       </div>  
       <div className="venuePhoto">
-        { VenuesController.searchPhoto(venue.id)}
+        
+          
       </div>
 
       <div className="photos">
-        <button > Related photographies
+        <h3>Related photographies</h3> 
         {<SearchPhotos venue={venue.name}></SearchPhotos>}
-        </button>
+       
         
         
       </div>
