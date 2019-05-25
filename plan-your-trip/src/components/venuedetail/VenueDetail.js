@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import Dispatcher from '../../mixins/dispatcher';
-
+import VenuesController from '../../controllers/venues.controller';
 import './VenueDetail.scss';
+import SearchPhotos from './SearchPhotos';
 
 export default class VenueDetail extends Component {
 
@@ -26,6 +27,17 @@ export default class VenueDetail extends Component {
         { venue.categories.length && venue.categories.map((category, i) => (<div key={i}>
           <img src={ category.icon.buildUrl(64) } title={ category.name } />
         </div>)) }
+      </div>  
+      <div className="venuePhoto">
+        { VenuesController.searchPhoto(venue.id)}
+      </div>
+
+      <div className="photos">
+        <button > Related photographies
+        {<SearchPhotos venue={venue.name}></SearchPhotos>}
+        </button>
+        
+        
       </div>
     </div>);
   }
