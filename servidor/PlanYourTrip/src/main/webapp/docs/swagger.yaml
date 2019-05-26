@@ -1,0 +1,401 @@
+swagger: '2.0'
+info:
+  description: API for PlanYourTrip Proyect
+  version: "1.2"
+  title: PlanYourTrip
+  # put the contact info for your development or API team
+  contact:
+    email: manbarlop1@alum.us.es
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+  
+paths:
+  /useritineraries/{name}:
+    get:
+      tags:
+      - developers
+      summary: Lists of itineraries for a user
+      operationId: get
+      description:
+        For the specific the username passed by parameter, it displays his list of itineraries
+      produces:
+      - application/json
+      parameters:
+      - name: name
+        in: path
+        description: Name of the user
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Itinerary'
+            
+  /useritineraries/{username}/{itineraryId}:
+    post:
+      tags:
+      - developers
+      summary: Adds an itinerary to the list
+      operationId: addUserItinerary
+      description: 
+        Adds the intinerary with the specified id to the user itinerary list with this username 
+      consumes:
+      - text/plain
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: username
+        type: string
+        required: true
+        description: itineraryId to add at the username
+      - in: path
+        name: itineraryId
+        type: string
+        required: true
+        description: itineraryId to add at the username
+      responses:
+        201:
+          description: Itinerary added
+          schema:
+            $ref: '#/definitions/Itinerary'
+        404:
+          description: User or itinerary not found
+        409:
+          description: The itinerary is already included in the list.
+          
+    delete:
+      tags:
+      - developers
+      summary: Remove an itinerary from the list
+      operationId: removeUserItinerary
+      description: 
+        Remove the intinerary with the specified id to the user with the usnername itinerary list 
+      parameters:
+      - in: path
+        name: username
+        required: true
+        type: string
+        description: Username who has the itinerary list 
+      - in: path
+        name: itineraryId
+        type: string
+        required: true  
+        description: Itineraryid which is going to be removed
+      
+      responses:
+        201:
+          description: Itinerary deleted
+        404:
+          description: User or itinerary not found  
+          
+
+            
+  /itineraries/{id}:
+    get:
+      tags:
+        - developers
+      summary: List of venues for the itineraryid provided
+      operationId: getItinerary
+      description:
+        Show the venues listed on the itineraryid
+      produces:
+        - aplication/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: itineraryId to add at the username
+  
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Itinerary'
+            
+    delete:
+      tags:
+      - developers
+      summary: Remove an itinerary from the list
+      operationId: removeItinerary
+      description: 
+        Remove the intinerary with the specified id from the itinerary data base 
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: itineraryId to remove
+      responses:
+        201:
+          description: Success
+        400:
+          description: Bad request
+            
+  /itineraries/:
+    get:
+      tags:
+      - developers
+      summary: List all the itineraies on the data base
+      operationId: getAll
+      description:
+        Show all the itineraries available
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Itinerary'
+    post:
+      tags:
+      - developers
+      summary: Adds an itinerary to itinerary data base
+      operationId: addItinerary
+      description: 
+        Adds the intinerary with the specified id to the itinerary database 
+      consumes:
+        - application/json
+      produces:
+        - aplication/json
+      responses:
+        201:
+          description: Success
+        400:
+          description: Bad request
+    put:
+      tags:
+      - developers
+      summary: Update an itinerary at itinerary data base
+      operationId: updateItinerary
+      description: 
+        Update the intinerary with the itinierary described at the body request as Json,at the itinerary database
+      consumes:
+        - application/json
+        
+      responses:
+        201:
+          description: Success, the itinerary has been updated
+        400:
+          description: Bad request
+        404:
+          description: User or itinerary not found
+          
+  /itineraries/{itineraryId}/{venueId}:
+    post:
+      tags:
+        - developers
+      summary: Add a venue to the specified itinerary 
+      operationId: addVenueToItinerary
+      description: 
+        Adds the venue with venueId to the specified itinerary by the itineraryId
+      consumes:
+        - application/json
+      produces:
+        - aplication/json
+      parameters:
+      - in: path
+        name: itineraryId
+        type: string
+        required: true
+        description: itineraryId to add the venue
+      - in: path
+        name: venueId
+        type: string
+        required: true 
+        description: venueId to be added
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Itinerary'
+        400:
+          description: Bad request
+          
+    delete:
+      tags:
+      - developers
+      summary: Remove venue from the itinerary
+      operationId: removeVenue
+      description: 
+        Remove the venue with venueId from the specified itinerary by the id
+      consumes:
+        - application/json
+      produces:
+        - aplication/json
+      parameters:
+      - in: path
+        name: itineraryId
+        type: string
+        required: true
+        description: itineraryId from which venue is going to be removed
+      - in: path
+        name: venueId
+        type: string
+        required: true 
+        description: venueId to be removed
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Itinerary'
+        400:
+          description: Bad request
+          
+  /venues/:
+    get:
+      tags:
+      - developers
+      summary: List all venues available
+      operationId: getAllVenues
+      description:
+        Show all the venues availables at the database
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Itinerary'
+    post:
+      tags:
+      - developers
+      summary: Create a new venue
+      operationId: addVenue
+      description:
+        Create the venue for the id
+      consumes:
+        - aplication/json
+      produces:
+        - aplication/json
+      parameters:
+      - in: path
+        name: venueId
+        type: string
+        required: true
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Itinerary'
+  
+            
+    put:
+      tags:
+      - developers
+      summary: Update a venue
+      operationId: updateVenue
+      description: 
+        Update the venue specified at the body request as json format
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: Success, the venue has been updated
+        400:
+          description: Bad request
+        404:
+          description: venue not found
+            
+  /venues/{venueId}:
+    get:
+      tags:
+      - developers
+      summary: Show specificied venue
+      operationId: getVenue
+      description:
+        Show the venue specified by the venueId 
+      produces:
+        - aplication/json
+      parameters:
+      - in: path
+        name: venueId
+        type: string
+        required: true 
+        description: venueId which want to be obtained
+        
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Venue'
+    delete:
+      tags:
+      - developers
+      summary: Remove the specified venue
+      operationId: deleteVenue
+      description: 
+        Remove the venue with the specified id  
+      parameters:
+      - in: path
+        name: venueId
+        type: string
+        required: true
+        description: venueId which want to be deleted
+        
+      responses:
+        201:
+          description: Success
+        400:
+          description: Bad request
+            
+
+            
+definitions:
+  User:
+    type: object
+    required:
+    - name
+    properties:
+      id:
+        type: string
+        format: uid
+        example: u1
+      name:
+        type: string
+        example: John Doe
+  Itinerary:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        format: iid
+        example: i12
+      name:
+        type: string
+        example: Museos en Sevilla
+      venues:
+        type: array
+        items:      
+          $ref: '#/definitions/Venue'
+  Venue:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        format: vid
+        example: v23
+      name:
+        type: string
+        example: Museo del Prado
+      
+        
+# Added by API Auto Mocking Plugin
+# host: planyourtrip.appspot.com
+# basePath: /api
+schemes:
+ - https
+# Added by API Auto Mocking Plugin
+host: planyourtrip.appspot.com
+basePath: /api
