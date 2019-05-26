@@ -1,9 +1,13 @@
 
-export default class CategoryIcon {
+export default class VenueImage {
 
   constructor(data = {}) {
     this._prefix = data.prefix || null;
     this._suffix = data.suffix || null;
+  }
+
+  buildUrl(size) {
+    return this.prefix + size + this.suffix;
   }
 
   set prefix(prefix) {
@@ -20,10 +24,6 @@ export default class CategoryIcon {
 
   get suffix() {
     return this._suffix;
-  }
-
-  buildUrl(size) {
-    return this.prefix + size + this.suffix;
   }
 
 }

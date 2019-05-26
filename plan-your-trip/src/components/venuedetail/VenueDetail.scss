@@ -3,20 +3,114 @@ $color: rgb(239, 244, 244);
 
 .VenueDetail {
   position: absolute;
+  top: 75%;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 20px 10px 40px;
+  z-index: 1000000000000;
   background-color: $background-color;
   color: $color;
+  -webkit-transition: top 0.3s;
+  transition: top 0.3;
+  transition-delay: 0s;
+  overflow: auto;
+  max-height: 75%;
 
-  .header {
-    h1 {
-      margin: 0;
+  &:hover {
+    top: 25%;
+    max-height: 75%;
+  }
+
+  .VenueDetailContent {
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 100px;
+    padding-bottom: 2rem;
+
+    .header {
+      padding: 20px 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+
+      h1 {
+        margin: 0;
+      }
+
+      button {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        text-indent: 100px;
+        overflow: hidden;
+        right: -1.75rem;
+        top: 2.5rem;
+        background: transparent url("./times.svg") no-repeat center center;
+        background-size: 100%;
+        border: none;
+        transform-origin: 50% 50%;
+        pointer-events: auto;
+        opacity: 1;
+        -webkit-transform: translate3d(-30px,-50%,0) scale3d(1,1,1);
+        transform: translate3d(-30px,-50%,0) scale3d(1,1,1);
+        -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+        transition: opacity 0.3s, transform 0.3s;
+        -webkit-transition-delay: 0.5s;
+        transition-delay: 0.5s;
+      }
+      margin-bottom: 2rem;
     }
 
-    button {
-      background: transparent url("./times.svg") no-repeat center center;
+    .content {
+      margin: 0 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      margin-bottom: 2rem;
+
+      .category {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+
+        > span {
+          font-size: 1.5rem;
+          font-weight: bold;
+
+          &:not(:last-child) {
+            margin-right: 2rem;
+          }
+        }
+      }
+
+      &.info {
+        padding: 20px;
+
+        .key-value-pair {
+          display: flex;
+          flex-flow: row nowrap;
+          align-items: center;
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+
+          .key {
+            font-weight: bold;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .VenueDetailMedia {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
+    > img {
+      width: 50%;
     }
   }
 }

@@ -16,6 +16,7 @@ export default class SearchBar extends Component {
       opened: false,
       searching: false,
       searchText: '',
+      placeText: '',
       categories: []
     }
   }
@@ -39,7 +40,7 @@ export default class SearchBar extends Component {
 
     const keyCode = evt.keyCode || evt.which;
     // console.log('keydown event handled', keyCode, evt.key, evt.type, evt);
-    if (keyCode === 27 && this.state.opened) {
+    if ((keyCode === 27 && this.state.opened) || !this.state.opened) {
       this.toggleSearch(evt);
     }
   }
@@ -67,13 +68,14 @@ export default class SearchBar extends Component {
       return false;
     }
     const { onSearch } = this.props;
-    const { searchText, categories } = this.state;
+    const { searchText, placeText, categories } = this.state;
 
     this.setState({ opened: false });
 
     if (typeof onSearch === 'function') {
       onSearch({
         query: searchText,
+        place: placeText,
         categories: categories
       });
     }
@@ -85,17 +87,20 @@ export default class SearchBar extends Component {
   }
 
   render() {
-    const { opened, searchText, categories } = this.state;
+    const { opened, searchText, placeText, categories } = this.state;
 
     return (
       <div id="searchbar" className={ classNames({
         'opened': opened
       }) }>
         <form className="searchbar-form" onSubmit={ this.handleSubmit }>
-          <input type="search" value={ searchText } placeholder="buscar..."
+          <input id="search-text" type="search" value={ searchText } placeholder={ "buscar..." }
             onFocus={ this.toggleSearch }
             onKeyDown={ this.handleKeyDown }
             onChange={ (evt) => !this.props.locked && this.setState({ searchText: evt.target.value }) } />
+          <input id="place-text" type="search" value={ placeText } placeholder={ "¿dónde?"}
+            onKeyDown={ this.handleKeyDown }
+            onChange={ (evt) => !this.props.locked && this.setState({ placeText: evt.target.value }) } />
           <button type="submit">Buscar</button>
         </form>
 

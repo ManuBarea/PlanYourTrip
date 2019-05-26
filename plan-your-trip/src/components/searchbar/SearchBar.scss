@@ -36,12 +36,21 @@ $searchbar-category-selected-title-color: rgba(0,0,0,0.3);
 
     .searchbar-form {
       width: 80%;
-      height: 160px;
+      height: 240px;
       -webkit-transform: translate3d(0,3em,0);
       transform: translate3d(0,3em,0);
 
       input {
         font-size: 5em;
+        height: 50%;
+
+        &#place-text {
+          font-size: 4.5em;
+          height: 50%;
+          opacity: 1;
+          -webkit-transition-delay: 0.5s;
+          transition-delay: 0.5s;
+        }
       }
 
       button {
@@ -101,7 +110,7 @@ $searchbar-category-selected-title-color: rgba(0,0,0,0.3);
 
   .searchbar-form {
     width: 100%;
-    height: 40px;
+    height: 50px;
     margin: 0 auto;
     position: relative;
     -webkit-transition-property: width, height, -webkit-transform;
@@ -129,6 +138,17 @@ $searchbar-category-selected-title-color: rgba(0,0,0,0.3);
       &::-webkit-input-placeholder {
         color: $searchbar-input-placeholder-color;
       }
+
+      &#place-text {
+        opacity: 0;
+        height: 0;
+        -webkit-transition-property: font-size, opacity;
+        transition-property: font-size, opacity;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        -webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+        transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+      }
     }
 
     button:focus,
@@ -143,7 +163,7 @@ $searchbar-category-selected-title-color: rgba(0,0,0,0.3);
       text-indent: 100px;
       overflow: hidden;
       right: 0;
-      top: 50%;
+      top: 25%;
       background: transparent url("./magnifier.svg") no-repeat center center;
       background-size: 100%;
       border: none;

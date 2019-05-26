@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import { FlyToInterpolator } from 'react-map-gl';
 import WebMercatorViewport from 'viewport-mercator-project';
 
 import Map from './map/Map';
 import SearchBar from './searchbar/SearchBar';
 import PlacesBar from './placesbar/PlacesBar';
 import VenueDetail from './venuedetail/VenueDetail';
+import Login from './login/Login';
+import Lists from './lists/Lists';
 
 import VenuesController from '../controllers/venues.controller';
 import PlacesController from '../controllers/places.controller';
+import UserController from '../controllers/user.controller';
 
 import Dispatcher from '../mixins/dispatcher';
 
@@ -49,6 +53,7 @@ class App extends Component {
         zoom: 6
       },
       place: null,
+      placeText: null,
       venues:[],
       searching: false,
       venueDetail: null
@@ -61,87 +66,80 @@ class App extends Component {
 
     Dispatcher.on('venue::details::close', () => {
         this.setState({ venueDetail: null });
-    })
+    });
+  }
+
+  handleSearchError = (error) => {
+
   }
 
   handleSearch = (searchData) => {
     this.setState({ searching: true, venueDetail: null });
 
     let query = searchData.query;
+    let placeQuery = searchData.place;
     let categories = searchData.categories;
-    let { viewport, place } = this.state;
+    let { viewport, place, placeText } = this.state;
 
-    VenuesController.search(query, categories, [viewport.latitude, viewport.longitude])
+    if (typeof placeQuery === 'string' && placeQuery !== '') {
+      new Promise((resolve, reject) => {
+        if (placeQuery === placeText && place != null) {
+          resolve(place);
+        } else {
+          PlacesController.search(placeQuery)
+            .then((place) => {
+              resolve(place)
+            }, error => reject(error));
+        }
+      })
+        .then(place => this.searchVenues(query, categories, [place.center[1], place.center[0]], place, placeText))
+        .catch(this.handleSearchError);
+    } else {
+      this.searchVenues(query, categories, [viewport.latitude, viewport.longitude], null, null);
+    }
+  }
+
+  searchVenues = (query, categories, center, place, placeText) => {
+    let { viewport } = this.state;
+
+    VenuesController.search(query, categories, center)
       .then((data) => {
         console.log('data', data);
 
+        let nextState = {
+          place: place,
+          placeText: placeText,
+          searching: false,
+          venues: data,
+          viewport: viewport
+        };
 
         if (data.length) {
-
           const bounds = getBounds(data.map(entry => ({
             lat: entry.location.lat,
             lng: entry.location.lng
           })));
-
           const nextViewport = new WebMercatorViewport(viewport)
               .fitBounds(bounds, {
                 padding: 20,
                 offset: [0, -100]
               });
-
-          var { longitude, latitude, zoom, width, height} = nextViewport;
+          nextState.viewport = {
+            ...nextViewport,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionDuration: 2000
+          };
         } else {
-          var { latitude, longitude, width, height, zoom } = viewport;
+          nextState.viewport.latitude = center[0];
+          nextState.viewport.longitde = center[1];
         }
-        this.setState({
-          venues: data,
-          searching: false,
-          viewport: {
-            latitude: latitude,
-            longitude: longitude,
-            width: width,
-            height: height,
-            zoom: zoom
-          }
-        });
+
+        this.setState(nextState);
+
       }, (error) => {
         console.log('error searching points', error);
         this.setState({ searching: false });
       });
-  }
-
-  handlePlaceSelect = (searchData) => {
-    this.setState({ searching: true });
-
-    let query = searchData.query;
-
-    PlacesController.search(query)
-      .then((place) => {
-        console.log('found place', place);
-        let bbox = place.bbox;
-        let bounds = getBounds([{lng:bbox[0],lat: bbox[1]}, {lng:bbox[2],lat: bbox[3]}])
-        const {longitude, latitude, zoom, width, height} = new WebMercatorViewport(this.state.viewport)
-            .fitBounds(bounds, {
-              padding: 20,
-              offset: [0, -100]
-            });
-
-            console.log('width ', width, 'height', height)
-        this.setState({ searching: false,
-          place_error: false,
-          place: place,
-          viewport: {
-            longitude: longitude,
-            latitude: latitude,
-            zoom: zoom,
-            width: width,
-            height: height
-            //bounds: place.bbox
-        }});
-      }, (error) => {
-        console.log('error searching places', error);
-        this.setState({ searching: false, place_error: true });
-      })
   }
 
   render() {
@@ -149,8 +147,10 @@ class App extends Component {
 
     return (
       <div className="App">
+        <Login />
+        <Lists />
         <SearchBar locked={ searching } onSearch={ this.handleSearch } />
-        <PlacesBar locked={ searching } onSelect={ this.handlePlaceSelect } />
+        { /*<PlacesBar locked={ searching } onSelect={ this.handlePlaceSelect } />*/ }
         <Map viewport={ viewport } venues={ venues } onViewportChange={ (viewport) => !searching && this.setState({ viewport }) } />
         { venueDetail != null && (<VenueDetail venue={ venues.find(venue => venue.id === venueDetail) } />) }
       </div>

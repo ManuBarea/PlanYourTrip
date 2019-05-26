@@ -65,32 +65,3 @@ export default class Place {
     return this._name;
   }
 }
-
-/*
-
-bbox: [123.018417358398, 10.7224397659302, 123.079803466797, 10.7719898223878] (4)
-
-center: [123.0377, 10.7421] (2)
-
-context: [{id: "postcode.9320346552060150", text_es: "6116", text: "6116"}, Object, Object, Object] (4)
-
-geometry: {type: "Point", coordinates: [123.0377, 10.7421]}
-
-id: "locality.12519583179744000"
-
-place_name: "Dos Hermanas, Talisay, Negros Occidental, Filipinas"
-
-place_name_es: "Dos Hermanas, Talisay, Negros Occidental, Filipinas"
-
-place_type: ["locality"] (1)
-
-properties: {}
-
-relevance: 0.96
-
-text: "Dos Hermanas"
-
-text_es: "Dos Hermanas"
-
-type: "Feature"
-*/

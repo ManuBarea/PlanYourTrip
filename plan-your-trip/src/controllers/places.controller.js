@@ -1,6 +1,6 @@
 import PlacesClient from '../client/places.client';
 
-import Place from '../model/place.model';
+import Place from '../model/place';
 
 const typesWeight = ['country', 'region', 'postcode', 'district', 'place', 'locality', 'neighborhood'];
 

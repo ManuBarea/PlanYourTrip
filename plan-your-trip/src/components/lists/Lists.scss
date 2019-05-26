@@ -1,0 +1,26 @@
+.Lists {
+  position: absolute;
+  top: 25%;
+  left: 2rem;
+  z-index: 1000;
+
+  .block {
+    background-color: #f1f1f1;
+    width: 7rem;
+    padding: 10px;
+    text-align: center;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .ListsForm {
+    width: 12rem;
+    text-align: left;
+
+    label {
+      margin-bottom: 1rem;
+    }
+  }
+}

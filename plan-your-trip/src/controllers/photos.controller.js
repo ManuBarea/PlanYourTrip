@@ -1,13 +1,12 @@
 import PhotosClient from '../client/photos.client';
 
-import Photos from '../model/flicker.model/photos.model';
-import Photo from '../model/flicker.model/photo.model';
+import Photo from '../model/media';
 
 export default class PhotosController {
 
-    static search(query) {
+    static search(query, lat, lng) {
       return new Promise((resolve, reject) => {
-        PhotosClient.search(query)
+        PhotosClient.search(query, lat, lng)
           .then((data) => {
             if (!data.stat || data.stat !== 'ok') {
               reject(new Error('invalid response status'));

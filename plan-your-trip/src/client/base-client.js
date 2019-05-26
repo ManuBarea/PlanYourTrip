@@ -18,7 +18,7 @@ const request = (method, url, params, body, headers) => {
   }
 
   if (typeof body === 'object' && body !== null) {
-    payload.body = body;
+    payload.body = JSON.stringify(body);
   }
 
   return fetch(addParametersToURL(url, params), payload).then((response) => {
