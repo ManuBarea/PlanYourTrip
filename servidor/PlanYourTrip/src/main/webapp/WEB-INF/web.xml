@@ -13,6 +13,29 @@
     <servlet-name>SearchController</servlet-name>
     <url-pattern>/SearchController</url-pattern>
   </servlet-mapping>
+
+ <!-- All REST resources will be prefixed by /api  -->
+	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/api</param-value>
+	</context-param>
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>Resteasy</servlet-name>
+		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>aiss.api.ItineraryApp</param-value>
+		</init-param>
+	</servlet>		
+	
+	<!-- Servlet mappings -->
+	<!-- All calls to /api/xxx will be sent to the resteasy servlet -->
+	<servlet-mapping>
+		<servlet-name>Resteasy</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
  
  <!-- OAUTH SERVLETS 
     
