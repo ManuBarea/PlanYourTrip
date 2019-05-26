@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
+import aiss.api.resources.FoursquareAccessTokenResource;
 import aiss.api.resources.ItineraryResource;
 import aiss.api.resources.UserResource;
 import aiss.api.resources.VenueResource;
@@ -20,6 +21,7 @@ public class ItineraryApp extends Application {
 		singletons.add(ItineraryResource.getInstance());
 		singletons.add(VenueResource.getInstance());
 		singletons.add(UserResource.getInstance());
+		singletons.add(FoursquareAccessTokenResource.getInstance());
 	}
 
 	@Override
